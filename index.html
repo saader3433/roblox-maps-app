@@ -1,179 +1,215 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Roblox Maps Explorer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Roblox Maps Explorer</title>
 
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBjWv0Yg1bX-Wo2Scb1D1_R0M0PTdnWyic",
-      authDomain: "roblox-maps-app.firebaseapp.com",
-      projectId: "roblox-maps-app",
-      storageBucket: "roblox-maps-app.firebasestorage.app",
-      messagingSenderId: "365777485910",
-      appId: "1:365777485910:web:39b029024efc442543fbf7"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    signInAnonymously(auth);
-    window.db = db;
-  </script>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #f7fbff, #e3f2ff);
-      color: #003049;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 20px;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,.08);
-    }
-
-    header h1 {
-      font-size: 20px;
-      margin: 0;
-    }
-
-    .menu {
-      font-size: 26px;
-      cursor: pointer;
-    }
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      right: -260px;
-      width: 260px;
-      height: 100%;
-      background: white;
-      box-shadow: -2px 0 10px rgba(0,0,0,.1);
-      padding: 20px;
-      transition: 0.3s;
-      z-index: 10;
-    }
-
-    .sidebar.active {
-      right: 0;
-    }
-
-    .sidebar a {
-      display: block;
-      margin-bottom: 15px;
-      color: #0077ff;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    .search {
-      padding: 15px;
-    }
-
-    .search input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-
-    .maps {
-      padding: 15px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 15px;
-    }
-
-    .map-card {
-      background: white;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0,0,0,.08);
-      cursor: pointer;
-    }
-
-    .map-card img {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-    }
-
-    .map-card .info {
-      padding: 10px;
-    }
-
-    .map-card h3 {
-      margin: 0;
-      font-size: 15px;
-    }
-
-    .map-card p {
-      margin: 5px 0 0;
-      font-size: 13px;
-      color: #555;
-    }
-  </style>
+<style>
+:root{
+  --blue:#4da6ff;
+  --light:#ffffff;
+  --bg:#f5faff;
+}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:#000;
+}
+header{
+  background:linear-gradient(135deg,var(--blue),#8fd3ff);
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:white;
+}
+.menu-btn{
+  font-size:24px;
+  cursor:pointer;
+}
+.search{
+  width:90%;
+  margin:15px auto;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+.maps{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  padding:15px;
+}
+.map{
+  background:white;
+  border-radius:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+  overflow:hidden;
+  cursor:pointer;
+}
+.map img{
+  width:100%;
+  height:120px;
+  object-fit:cover;
+}
+.map .info{
+  padding:10px;
+}
+.rating{
+  color:gold;
+}
+.sidebar{
+  position:fixed;
+  top:0;
+  right:-260px;
+  width:260px;
+  height:100%;
+  background:white;
+  box-shadow:-5px 0 15px rgba(0,0,0,.2);
+  padding:20px;
+  transition:.3s;
+  z-index:10;
+}
+.sidebar.active{ right:0; }
+.overlay{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,.3);
+  display:none;
+  z-index:9;
+}
+.overlay.active{ display:block; }
+.sidebar a{
+  display:block;
+  margin:15px 0;
+  color:var(--blue);
+  font-weight:bold;
+  text-decoration:none;
+}
+.modal{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,.4);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:20;
+}
+.modal-content{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  width:90%;
+  max-width:400px;
+}
+button{
+  background:var(--blue);
+  border:none;
+  color:white;
+  padding:10px 15px;
+  border-radius:10px;
+  margin-top:10px;
+  cursor:pointer;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>🎮 Roblox Maps Explorer</h1>
-  <div class="menu" onclick="toggleMenu()">☰</div>
+  <h2>🎮 Roblox Maps</h2>
+  <div class="menu-btn" onclick="openMenu()">☰</div>
 </header>
 
+<input class="search" placeholder="Search Roblox map..." oninput="searchMaps(this.value)"/>
+
+<div class="maps" id="maps"></div>
+
+<!-- Sidebar -->
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
 <div class="sidebar" id="sidebar">
-  <a href="https://discord.gg/" target="_blank">⭐ الدعم الفني</a>
+  <button onclick="closeMenu()">⬅ Back</button>
+  <a href="https://discord.gg/" target="_blank">⭐ Support</a>
   <a href="https://www.roblox.com" target="_blank">🎮 Roblox</a>
 </div>
 
-<div class="search">
-  <input type="text" placeholder="Search Roblox Maps...">
-</div>
-
-<div class="maps" id="maps">
-  <div class="map-card" onclick="openMap('https://www.roblox.com/games/6516141723')">
-    <img src="https://tr.rbxcdn.com/doors/768/432/Image/Png" />
-    <div class="info">
-      <h3>DOORS</h3>
-      <p>👥 Players: Live</p>
-      <p>⭐ Rating: ★★★★☆</p>
-    </div>
-  </div>
-
-  <div class="map-card" onclick="openMap('https://www.roblox.com/games/4520749081')">
-    <img src="https://tr.rbxcdn.com/bloxfruits/768/432/Image/Png" />
-    <div class="info">
-      <h3>Blox Fruits</h3>
-      <p>👥 Players: Live</p>
-      <p>⭐ Rating: ★★★★★</p>
-    </div>
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3 id="mName"></h3>
+    <p id="mPlayers"></p>
+    <p id="mRating"></p>
+    <a id="mLink" target="_blank">
+      <button>Enter Map</button>
+    </a>
+    <button onclick="closeModal()">Close</button>
   </div>
 </div>
 
 <script>
-  function toggleMenu() {
-    document.getElementById("sidebar").classList.toggle("active");
-  }
+const mapsData=[
+ {name:"Doors",players:120000,rating:4.8,
+  img:"https://i.imgur.com/9R8KQ0s.jpg",
+  link:"https://www.roblox.com/games/6516141723"},
+ {name:"Blox Fruits",players:350000,rating:4.7,
+  img:"https://i.imgur.com/1sF7ZkT.jpg",
+  link:"https://www.roblox.com/games/2753915549"},
+ {name:"King Legacy",players:80000,rating:4.6,
+  img:"https://i.imgur.com/cKXy9ZL.jpg",
+  link:"https://www.roblox.com/games/4520749081"},
+ {name:"Brookhaven",players:420000,rating:4.5,
+  img:"https://i.imgur.com/8FqQJkR.jpg",
+  link:"https://www.roblox.com/games/4924922222"}
+];
 
-  function openMap(url) {
-    window.open(url, "_blank");
-  }
+const mapsDiv=document.getElementById("maps");
+
+function renderMaps(list){
+ mapsDiv.innerHTML="";
+ list.forEach(m=>{
+  mapsDiv.innerHTML+=`
+   <div class="map" onclick="openMap('${m.name}',${m.players},${m.rating},'${m.link}')">
+    <img src="${m.img}" onerror="this.src='https://via.placeholder.com/400x200?text=Roblox+Map'">
+    <div class="info">
+      <b>${m.name}</b>
+      <div>👥 ${m.players.toLocaleString()}</div>
+      <div class="rating">⭐ ${m.rating}</div>
+    </div>
+   </div>`;
+ });
+}
+
+renderMaps(mapsData);
+
+function searchMaps(q){
+ q=q.toLowerCase();
+ renderMaps(mapsData.filter(m=>m.name.toLowerCase().includes(q)));
+}
+
+function openMenu(){
+ sidebar.classList.add("active");
+ overlay.classList.add("active");
+}
+function closeMenu(){
+ sidebar.classList.remove("active");
+ overlay.classList.remove("active");
+}
+
+function openMap(n,p,r,l){
+ mName.innerText=n;
+ mPlayers.innerText="Players: "+p.toLocaleString();
+ mRating.innerText="Rating: ⭐ "+r;
+ mLink.href=l;
+ modal.style.display="flex";
+}
+function closeModal(){
+ modal.style.display="none";
+}
 </script>
 
 </body>
