@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Roblox Maps</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
 body {
   margin: 0;
-  background: #f4f9ff;
+  font-family: Arial, sans-serif;
+  background: #f4faff;
 }
 
 header {
-  background: linear-gradient(90deg,#5bbcff,#8fd3ff);
+  background: linear-gradient(90deg,#6ec6ff,#4dabf7);
   color: white;
   padding: 15px;
   display: flex;
@@ -26,7 +22,7 @@ header {
 }
 
 .menu-btn {
-  font-size: 26px;
+  font-size: 24px;
   cursor: pointer;
 }
 
@@ -41,7 +37,7 @@ header {
 
 .maps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+  grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
   gap: 15px;
   padding: 15px;
 }
@@ -49,13 +45,13 @@ header {
 .map {
   background: white;
   border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   overflow: hidden;
 }
 
 .map img {
   width: 100%;
-  height: 140px;
+  height: 120px;
   object-fit: cover;
 }
 
@@ -63,46 +59,52 @@ header {
   padding: 10px;
 }
 
-.map-info h3 {
-  margin: 0 0 5px;
-}
-
 .play {
-  background: #5bbcff;
+  width: 100%;
+  background: #4dabf7;
   color: white;
-  text-align: center;
+  border: none;
   padding: 10px;
   border-radius: 10px;
-  margin-top: 10px;
-  text-decoration: none;
-  display: block;
+  cursor: pointer;
+  margin-top: 8px;
 }
 
 /* Sidebar */
 .overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.4);
   display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
 }
 
 .sidebar {
   position: fixed;
-  right: -260px;
+  right: -250px;
   top: 0;
-  width: 260px;
+  width: 250px;
   height: 100%;
   background: white;
   padding: 20px;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .sidebar a {
   display: block;
   margin: 15px 0;
   text-decoration: none;
-  color: #333;
+  color: #4dabf7;
   font-size: 18px;
+}
+
+.back {
+  background: #4dabf7;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 10px;
 }
 </style>
 </head>
@@ -119,11 +121,10 @@ header {
 <div class="maps" id="maps"></div>
 
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
-
 <div class="sidebar" id="sidebar">
-  <a href="#" onclick="closeMenu()">⬅ Back</a>
-  <a href="https://discord.com" target="_blank">⭐ Support</a>
-  <a href="https://www.roblox.com/users/profile" target="_blank">🎮 Roblox</a>
+  <button class="back" onclick="closeMenu()">⬅ Back</button>
+  <a href="https://discord.gg/" target="_blank">⭐ Support</a>
+  <a href="https://www.roblox.com/" target="_blank">🎮 Roblox</a>
 </div>
 
 <script>
@@ -135,22 +136,21 @@ const mapsData = [
 ];
 
 function thumbnail(id){
-  return `https://thumbnails.roblox.com/v1/places/${id}/icons?size=512x512&format=Png&isCircular=false`;
+  return `https://thumbnails.roblox.com/v1/places/${id}/icons?size=512x512&format=Png`;
 }
 
 function render(list){
-  const el = document.getElementById("maps");
-  el.innerHTML = "";
+  const maps = document.getElementById("maps");
+  maps.innerHTML = "";
   list.forEach(m=>{
-    el.innerHTML += `
+    maps.innerHTML += `
     <div class="map">
-      <img src="${thumbnail(m.placeId)}"
-       onerror="this.src='https://images.unsplash.com/photo-1605902711622-cfb43c4437b1'">
+      <img src="${thumbnail(m.placeId)}" onerror="this.src='https://via.placeholder.com/300x200?text=Roblox'">
       <div class="map-info">
-        <h3>${m.name}</h3>
+        <b>${m.name}</b><br>
         👥 ${m.players}<br>
         ⭐ ${m.rating}
-        <a class="play" href="https://www.roblox.com/games/${m.placeId}" target="_blank">Play</a>
+        <button class="play" onclick="window.open('https://www.roblox.com/games/${m.placeId}')">Play</button>
       </div>
     </div>`;
   });
@@ -161,13 +161,13 @@ function searchMaps(q){
 }
 
 function openMenu(){
-  document.getElementById("sidebar").style.right="0";
-  document.getElementById("overlay").style.display="block";
+  document.getElementById("sidebar").style.right = "0";
+  document.getElementById("overlay").style.display = "block";
 }
 
 function closeMenu(){
-  document.getElementById("sidebar").style.right="-260px";
-  document.getElementById("overlay").style.display="none";
+  document.getElementById("sidebar").style.right = "-250px";
+  document.getElementById("overlay").style.display = "none";
 }
 
 render(mapsData);
