@@ -3,80 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <title>Roblox Maps Explorer</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(180deg, #e6f4ff, #ffffff);
-  color: #003366;
-}
-
-header {
-  background: #1da1ff;
+  background: linear-gradient(180deg,#0a1a3a,#020617);
   color: white;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
-
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
 .menu {
   font-size: 26px;
   cursor: pointer;
 }
-
+h1 {
+  font-size: 22px;
+}
+.search {
+  padding: 10px;
+  width: 90%;
+  margin: 10px auto;
+  display: block;
+  border-radius: 8px;
+  border: none;
+}
 .container {
   padding: 15px;
 }
-
-.search {
-  width: 100%;
-  padding: 12px;
+.card {
+  background: #0f2a52;
   border-radius: 12px;
-  border: 1px solid #ccc;
-  font-size: 16px;
+  padding: 10px;
   margin-bottom: 15px;
 }
-
-.map-card {
-  background: white;
-  border-radius: 16px;
-  padding: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-}
-
-.map-card h3 {
-  margin: 0;
-}
-
-.stars {
-  color: gold;
-  font-size: 18px;
-}
-
-.players {
-  font-size: 14px;
-  color: #555;
-}
-
-.vote button {
-  margin-top: 8px;
-  padding: 8px 14px;
-  border: none;
+.card img {
+  width: 100%;
   border-radius: 10px;
+}
+.card h2 {
+  margin: 8px 0 5px;
+}
+.info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+.btn {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  padding: 8px;
   background: #1da1ff;
+  border-radius: 8px;
   color: white;
-  cursor: pointer;
+  text-decoration: none;
 }
-.vote button:hover {
-  background: #0c7fd6;
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -260px;
+  width: 250px;
+  height: 100%;
+  background: #0b1e3d;
+  padding: 20px;
+  transition: 0.3s;
 }
-
-.top {
-  border-left: 5px solid gold;
+.sidebar a {
+  display: block;
+  color: white;
+  margin: 15px 0;
+  text-decoration: none;
 }
 </style>
 </head>
@@ -84,62 +85,60 @@ header {
 <body>
 
 <header>
-  <div class="menu">☰</div>
-  <h2>🎮 Roblox Maps Explorer</h2>
+  <h1>🎮 Roblox Maps Explorer</h1>
+  <div class="menu" onclick="toggleMenu()">☰</div>
 </header>
 
+<input class="search" placeholder="Search Roblox map...">
+
 <div class="container">
-  <input class="search" placeholder="Search map... | ابحث عن ماب">
 
-  <h3>🏆 Top 10 Maps</h3>
+<div class="card">
+<img src="https://tr.rbxcdn.com/6d1a1d7a7f4f1b5bcb5d1c6bcd123456/768/432/Image/Png">
+<h2>Doors</h2>
+<div class="info">
+<span>⭐ 4.8</span>
+<span>👥 45K Playing</span>
+</div>
+<a class="btn" href="https://www.roblox.com/games/6516141723/DOORS" target="_blank">Play on Roblox</a>
+</div>
 
-  <div class="map-card top">
-    <h3>#1 Doors</h3>
-    <div class="stars">★★★★★</div>
-    <div class="players">👥 120,000 Players</div>
-    <div class="vote">
-      <button>👍 Vote</button>
-    </div>
-  </div>
+<div class="card">
+<img src="https://tr.rbxcdn.com/8a2c9e7bfa123456789abcdef/768/432/Image/Png">
+<h2>Blox Fruits</h2>
+<div class="info">
+<span>⭐ 4.9</span>
+<span>👥 210K Playing</span>
+</div>
+<a class="btn" href="https://www.roblox.com/games/2753915549/Blox-Fruits" target="_blank">Play on Roblox</a>
+</div>
 
-  <div class="map-card top">
-    <h3>#2 Brookhaven RP</h3>
-    <div class="stars">★★★★☆</div>
-    <div class="players">👥 350,000 Players</div>
-    <button>👍 Vote</button>
-  </div>
-
-  <div class="map-card top">
-    <h3>#3 Blox Fruits</h3>
-    <div class="stars">★★★★★</div>
-    <div class="players">👥 500,000 Players</div>
-    <button>👍 Vote</button>
-  </div>
-
-  <h3>🌍 All Roblox Maps</h3>
-
-  <div class="map-card">
-    <h3>King Legacy</h3>
-    <div class="stars">★★★★☆</div>
-    <div class="players">👥 90,000 Players</div>
-    <button>👍 Vote</button>
-  </div>
-
-  <div class="map-card">
-    <h3>Murder Mystery 2</h3>
-    <div class="stars">★★★★★</div>
-    <div class="players">👥 110,000 Players</div>
-    <button>👍 Vote</button>
-  </div>
-
-  <div class="map-card">
-    <h3>Adopt Me</h3>
-    <div class="stars">★★★☆☆</div>
-    <div class="players">👥 420,000 Players</div>
-    <button>👍 Vote</button>
-  </div>
+<div class="card">
+<img src="https://tr.rbxcdn.com/3fae1d2b456789abcdef/768/432/Image/Png">
+<h2>Brookhaven</h2>
+<div class="info">
+<span>⭐ 4.7</span>
+<span>👥 390K Playing</span>
+</div>
+<a class="btn" href="https://www.roblox.com/games/4924922222/Brookhaven" target="_blank">Play on Roblox</a>
+</div>
 
 </div>
+
+<div class="sidebar" id="menu">
+<h2>⭐ Menu</h2>
+<a href="#">All Maps</a>
+<a href="#">Top Rated</a>
+<a href="https://discord.com" target="_blank">⭐ Support Discord</a>
+<a href="https://www.roblox.com/users/profile" target="_blank">🎮 Roblox Profile</a>
+</div>
+
+<script>
+function toggleMenu(){
+  const menu = document.getElementById("menu");
+  menu.style.right = menu.style.right === "0px" ? "-260px" : "0px";
+}
+</script>
 
 </body>
 </html>
